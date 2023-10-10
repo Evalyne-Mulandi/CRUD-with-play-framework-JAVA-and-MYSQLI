@@ -1,0 +1,56 @@
+@import models.Book
+@(books: List[Book])
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<main class="p-2 pr-10 md:flex hidden justify-end items-center mx-auto flex-row gap-x-20">
+    <div class="uppercase ml-28 text-blue-900 text-xl flex font-bold flex-grow">CodeFolio</div>
+    <nav class="bg-blue-900 text-white p-3 rounded-3xl">
+        <a href="@routes.HomeController.index()">Home</a>  |
+        <a href="@routes.AboutController.index()">About</a>  |
+        <a href="@routes.BookController.index()">Services</a>  |
+        <a href="@routes.ContactController.index()">Contact us</a>
+    </nav>
+</main>
+
+<h1 class="text-2xl m-10  flex items-center justify-center text-center font-semibold mb-4">Book List</h1>
+
+<table class="min-w-full divide-y m-10  divide-gray-200">
+    <thead class="bg-gray-200">
+    <tr>
+        <th scope="col" class="px-6 py-3 text-left text-xs     font-medium text-gray-500 uppercase tracking-wider">
+            ID
+        </th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            Title
+        </th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            Author
+        </th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            Actions
+        </th>
+    </tr>
+    </thead>
+    <tbody class="bg-white divide-y divide-gray-200">
+    @for(book <- books) {
+    <tr>
+        <td class="px-6 py-4 whitespace-nowrap">
+            @book.id
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap">
+            @book.title
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap">
+            @book.author
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+            <a href="@routes.BookController.editBook(book.id)  " class="text-white bg-blue-500  rounded md  px-3 py-2  hover:text-indigo-900">Edit</a>
+            <a href="@routes.BookController.deleteBook(book.id) " class="text-white  bg-red-600  rounded md  px-3 py-2  hover:text-red-900 ml-4">Delete</a>
+        </td>
+    </tr>
+    }
+    </tbody>
+</table>
+

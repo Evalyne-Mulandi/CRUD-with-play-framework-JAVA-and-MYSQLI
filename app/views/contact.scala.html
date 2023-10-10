@@ -1,0 +1,59 @@
+@(email: String)
+@main("Contact Us"){
+
+<main class=" p-10     min-h-screen   ">
+    <div class="p-10 text-black text-5xl font-extrabold flex justify-center items-center">Find us & say hello...</div>
+    <div class="flex justify-center items-center  gap-x-48  md:flex-row flex-col
+  ">
+        <div class="  justify-center   items-center flex flex-col gap-y-7  flex-wrap p-2  max-w-md ">
+            <p class="   ">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Commodi nesciunt quisquam necessitatibus optio voluptatem eveniet reiciendis quibusdam deleniti quidem! Accusantium, tempore voluptati</p>
+            <div class="    w-3/5  flex-col">
+
+                <h1 class=" text-2xl   font-bold  text-black  font-mono ">Address</h1>
+                <span class="    text-black font-mono" >Nairobi,kenya</span>
+            </div>
+
+            <div class="  flex-col">
+
+                <h1 class="    text-2xl font-bold  text-black  font-mono ">Email</h1>
+                <span class="    text-black font-mono" >@email</span>
+            </div>
+
+        </div>
+        <div class="pt-9 w-2/5 max-w-3xl flex flex-col">
+
+            <div class="border rounded-md p-3">
+                <input type="text" name="fullName" placeholder="Full Name" class="border-none px-3 w-full" />
+
+            </div>
+            <div class="border rounded-md p-3">
+                <input type="email" name="email" placeholder="Email" class="border-none px-3 w-full" />
+
+            </div>
+            <div class="border rounded-md p-3">
+                <input type="text" name="subject" placeholder="Subject" class="border-none px-3 w-full" />
+
+            </div>
+            <div class="border rounded-md p-3">
+                <textarea name="description" placeholder="Description" cols="10" rows="7" class="border-none w-full"></textarea>
+
+            </div>
+            <button type="submit" class="rounded-md   bg-black hover:bg-teal-900 py-2 flex-row flex justify-center items-center w-36 mx-auto text-white">Send message</button>
+
+        </div>
+
+
+    </div>
+
+
+    <!--
+    <div class=" flex justify-center items-center p-10 ">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.801278217325!2d35.962801314454005!3d-0.167464635475366!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1829f6f367bba6d9%3A0x363c14244dccdde!2sKabarak%20university!5e0!3m2!1sen!2ske!4v1665070492855!5m2!1sen!2ske" width="900" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div> -->
+
+
+</main>
+<div class="container">
+
+</div>
+}
