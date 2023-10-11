@@ -18,10 +18,10 @@
  GET     /deleteBook/:id    controllers.BookController.deleteBook(id: Long)
 
  # Edit a book
- GET     /editBook/:id       controllers.BookController.editBook(id: Long, request: Request)
+  GET     /editBook/:id       controllers.BookController.editBook(id: Long, request: Request)
 
 # Update a book
- POST    /updateBook/:id     controllers.BookController.updateBook(id: Long,request: Request)
+  POST    /updateBook/     controllers.BookController.saves(request: Request)
 
 
 

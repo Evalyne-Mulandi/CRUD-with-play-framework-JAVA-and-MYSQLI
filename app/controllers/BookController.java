@@ -9,11 +9,14 @@ import play.i18n.MessagesApi;
 import javax.inject.Inject;
 import play.mvc.Http;
 import io.ebean.Ebean;
-import play.mvc.Controller;
+import play.mvc.*;
 import play.mvc.Result;
 import play.mvc.Http.Request;
 import play.mvc.Http.RequestBody;
 import play.mvc.Http.MultipartFormData;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import views.html.book.*;
@@ -21,10 +24,7 @@ import views.html.book.*;
 public class BookController extends Controller {
     private final FormFactory formFactory;
     private final MessagesApi messages;
-
-    @Inject
-    private play.db.ebean.EbeanConfig ebeanConfig;
-
+    final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Inject
     public BookController(FormFactory formFactory, MessagesApi messages) {
         this.formFactory = formFactory;
@@ -41,6 +41,7 @@ public class BookController extends Controller {
     public Result create(Http.Request request) {
 
         Form<Book> bookForm = formFactory.form(Book.class);
+        logger.info("create page");
         return ok(views.html.create.render(bookForm, request, messages.preferred(request)));
     }
 
@@ -50,15 +51,20 @@ public class BookController extends Controller {
         Form<Book> boundForm = formFactory.form(Book.class).bindFromRequest(request);
 
         if (boundForm.hasErrors()) {
+            logger.error("create book errors: {}", boundForm.errors());
             return badRequest(views.html.create.render(boundForm, request, messages.preferred(request)));
         }
 
         Book book = boundForm.get();
-        book.save();
-
+        try {
+            logger.info("saving book");
+            Ebean.save(book);
+        } catch (Exception e) {
+            logger.error("Saving error", e.getMessage());
+        }
 
         // Redirect to the index page or perform other actions
-        return redirect(routes.BookController.index());
+        return redirect(routes.BookController.listBooks());
     }
 
     // For all books
@@ -100,7 +106,7 @@ public class BookController extends Controller {
 
 
 
-    public Result updateBook(Long id, Http.Request request) {
+    public Result updatedBook1(Http.Request request) {
 
         Form<Book> boundForm = formFactory.form(Book.class).bindFromRequest((request));
 
@@ -108,14 +114,49 @@ public class BookController extends Controller {
             return badRequest(views.html.edit.render(boundForm, request, messages.preferred(request)));
         }
         Book updatedBook = boundForm.get();
+        Book  existingBook = getBookById(updatedBook.getId());
 
-        updatedBook.save(); // Update the book in the database
+        existingBook.setTitle(updatedBook.getTitle());
+        existingBook.setAuthor(updatedBook.getAuthor());
+        existingBook.setDescription(updatedBook.getDescription());
 
-        return redirect(routes.BookController.listBooks());// Redirect to the book list page
+//        updatedBook.update(); // Update the book in the database
+
+            Ebean.update(existingBook);
+
+            return redirect(routes.BookController.listBooks());// Redirect to the book list page
+        }
+    public Result saves(Http.Request request) {
+//        Form<Book> bookForm = ;
+        Form<Book> boundForm = formFactory.form(Book.class).bindFromRequest(request);
+
+        if (boundForm.hasErrors()) {
+            logger.error("create book errors: {}", boundForm.errors());
+            return badRequest(views.html.create.render(boundForm, request,  messages.preferred(request)));
+        }
+
+        Book updatedBook = boundForm.get();
+        try {
+            logger.info("saving book");
+            Book  existingBook = getBookById(updatedBook.getId());
+
+
+            existingBook.setTitle(updatedBook.getTitle());
+            existingBook.setAuthor(updatedBook.getAuthor());
+            existingBook.setDescription(updatedBook.getDescription());
+
+//        updatedBook.update(); // Update the book in the database
+
+            Ebean.update(existingBook);
+        } catch (Exception e) {
+            logger.error("Saving error", e.getMessage());
+        }
+
+        // Redirect to the index page or perform other actions
+        return redirect(routes.BookController.listBooks());
+    }
     }
 
-
-}
 
 
 
