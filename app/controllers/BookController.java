@@ -32,8 +32,9 @@ public class BookController extends Controller {
     }
 
 
-    public Result index() {
-        return ok(views.html.book.render());
+    public Result index(Http.Request request) {
+
+        return ok( request.flash().get("success").orElse("Welcome!"));
     }
 
 
@@ -64,12 +65,14 @@ public class BookController extends Controller {
         }
 
         // Redirect to the index page or perform other actions
-        return redirect(routes.BookController.listBooks());
+        return redirect(routes.BookController.listBooks()).flashing("success", "created successfully");
     }
 
     // For all books
     public Result listBooks() {
-        List<Book> books = Book.find.all(); // Fetch all books from the database
+//        List<Book> books = Book.find.all(); // Fetch all books from the database
+
+        List<Book> books = Book.find.query().orderBy().desc("id").findList();
 
         return ok(views.html.booklist.render(books));
     }
